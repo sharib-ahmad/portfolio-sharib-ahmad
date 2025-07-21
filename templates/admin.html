@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Project</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="form-wrapper">
+            <div class="form-container">
+                <h2 class="page-title">✨ Create New Project</h2>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{% if category == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show"
+                    role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                <form method="POST" id="projectForm" action="{{ url_for('admin.admin') }}" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+
+                    <div class="form-section">
+                        {{ form.title.label(class="form-label") }}
+                        {{ form.title(class="form-control", placeholder="Enter your amazing project title") }}
+                        {% for error in form.title.errors %}
+                        <div class="text-danger"><small>{{ error }}</small></div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-section">
+                        {{ form.description.label(class="form-label") }}
+                        {{ form.description(class="form-control", rows="5", placeholder="Describe your project in
+                        detail...") }}
+                        {% for error in form.description.errors %}
+                        <div class="text-danger"><small>{{ error }}</small></div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-section">
+                        {{ form.image.label(class="form-label") }}
+                        {{ form.image(class="form-control", accept="image/*") }}
+                        {% for error in form.image.errors %}
+                        <div class="text-danger"><small>{{ error }}</small></div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-section">
+                        {{ form.tech.label(class="form-label") }}
+                        {{ form.tech(class="form-control", placeholder="Python, React, Node.js, MongoDB") }}
+                        <div class="form-text">💡 Enter technologies separated by commas</div>
+                        {% for error in form.tech.errors %}
+                        <div class="text-danger"><small>{{ error }}</small></div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-section">
+                        {{ form.rating.label(class="form-label") }}
+                        {{ form.rating(class="form-select") }}
+                        {% for error in form.rating.errors %}
+                        <div class="text-danger"><small>{{ error }}</small></div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="links-section">
+                        <h5>🔗 Project Links</h5>
+                        <div id="link-container">
+                            <!-- Initial link entry -->
+                            <div class="link-row row">
+                                <div class="col">
+                                    <label class="form-label" for="links-0-name">Link Name</label>
+                                    <input class="form-control" type="text" name="links-0-name" id="links-0-name"
+                                        value="" placeholder="e.g., Live Demo">
+                                </div>
+                                <div class="col">
+                                    <label class="form-label" for="links-0-url">Link URL</label>
+                                    <input class="form-control" type="url" name="links-0-url" id="links-0-url" value=""
+                                        placeholder="https://example.com">
+                                </div>
+                                <div class="col-auto d-flex align-items-end">
+                                    <button type="button" class="btn btn-danger btn-sm remove-link">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <button type="button" class="btn btn-secondary" id="add-link">➕ Add Another Link</button>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        {{ form.submit(class="btn btn-success btn-lg", id="submitBtn") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

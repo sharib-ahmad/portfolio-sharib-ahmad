@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharib Ahmad - Data Scentist</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio.css') }}">
+
+</head>
+
+<body>
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Initializing Digital Experience...</div>
+        </div>
+    </div>
+
+    <div class="cursor" id="cursor"></div>
+    <div id="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash-message flash-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="cyber-grid"></div>
+
+    <div class="particles" id="particles"></div>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <div class="hero-content">
+            <h1 id="hero-title"></h1>
+            <div class="hero-subtitle" id="hero-subtitle"></div>
+            <p class="hero-description">Learning Machine Learning and AI while pursuing a BS degree from IIT Madras —
+                I'm on a mission to blend curiosity, creativity, and code into powerful real-world solutions.</p>
+            <div class="cta-container">
+                <a href="#projects" class="cta-button" href="#projects">View My Work</a>
+                <a class="cta-button cta-secondary" href="#contact">Let's Connect</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="about animate-in" id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-container">
+            <div class="about-left-col">
+                <div class="about-image">
+                    <img src="/static/portfolio_pic/sharib-ahmad.webp" alt="Sharib Ahmad">
+                </div>
+                <div class="skills-pagination-wrapper" id="skills-pagination-wrapper">
+                    <div class="skills-container" id="skills-container">
+                        {% for skill in skills %}
+                        <div class="skill-orb">
+                            <div class="skill-icon">
+                                <img src="https://cdn.simpleicons.org/{{ skill | lower | replace('.', '') | replace(' ', '') | replace('#', 'sharp') | replace('+', 'plus') }}"
+                                    width="40" alt="{{ skill }}"
+                                    onerror="this.onerror=null;this.src='https://cdn.simpleicons.org/code';" />
+                            </div>
+                            <div class="skill-name">{{ skill }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="skill-controls" id="skill-controls" style="display: none;">
+                        <button class="arrow-btn" id="prev-skill">&#10094;</button>
+                        <button class="arrow-btn" id="next-skill">&#10095;</button>
+                    </div>
+                    <div class="skill-dots" id="skill-dots"></div>
+
+                </div>
+            </div>
+            <div class="about-text">
+                <h3>Aspiring Data Scientist</h3>
+                <p>I am an aspiring data scientist, currently in my fourth term of the Bachelor of Science in Data
+                    Science and Applications program at IIT Madras. My passion lies in leveraging data to uncover
+                    critical insights and develop practical solutions for real-world challenges.</p>
+                <p>My coursework and personal projects are currently centered on deepening my expertise in machine
+                    learning and artificial intelligence. I am focused on building a robust foundation in data science
+                    and software development, with the goal of making meaningful contributions to the professional world
+                    upon graduation.</p>
+                <p>I am committed to a path of continuous learning and skill enhancement, driven by a long-term vision
+                    to contribute to technological innovation and development in the future.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="projects animate-in" id="projects">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-pagination-wrapper" id="projects-wrapper">
+            <div class="projects-grid" id="projects-grid">
+                {% for project in projects %}
+                <div class="project-card">
+                    {% if project.image %}
+                    <div class="project-image-true" style="background-image: url({{project.image}});"></div>
+                    {% else %}
+                    <div class="project-image"></div>
+                    {% endif %}
+                    <div class="project-content">
+                        <h3 class="project-title">{{ project.title }}</h3>
+                        <p class="project-description">{{ project.description }}</p>
+                        <div class="project-tech">
+                            {% for tech in project.technologies %}
+                            <span class="tech-tag">{{ tech.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="project-links">
+                            {% for link in project.links %}
+                            <a href="{{ link.url }}" class="project-link">{{ link.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="project-controls" id="project-controls" style="display: none;">
+                <button class="arrow-btn" id="prev-project">&#10094;</button>
+                <button class="arrow-btn" id="next-project">&#10095;</button>
+            </div>
+
+            <div class="project-dots" id="project-dots"></div>
+        </div>
+
+    </section>
+
+    <section class="contact animate-in" id="contact">
+        <h2 class="section-title">Let's Build The Future</h2>
+        <div class="contact-container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Let's Connect & Collaborate</h3>
+                    <p>I'm always looking for opportunities to apply my growing skills in data science and machine
+                        learning to real-world challenges. Whether you have a project in mind, an internship
+                        opportunity, or just want to discuss the latest in AI, I'd love to hear from you.</p>
+                    <div class="social-grid">
+                        <a href="https://www.linkedin.com/in/sharib-ahmad-765b90311/" class="social-link"
+                            target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://x.com/sharib__ahmad" class="social-link" target="_blank"><i
+                                class="fab fa-x-twitter"></i></a>
+                        <a href="https://github.com/sharib-ahmad" class="social-link" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                <form method="POST" class="contact-form" action="{{ url_for('portfolio.portfolio') }}">
+                    {{ form.hidden_tag() }}
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            {{ form.name.label }}
+                            {{ form.name(class="form-control", id="name") }}
+                            {% for error in form.name.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.email.label }}
+                            {{ form.email(class="form-control", id="email") }}
+                            {% for error in form.email.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.subject.label }}
+                        {{ form.subject(class="form-control", id="subject") }}
+                        {% for error in form.subject.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.message.label }}
+                        {{ form.message(class="form-control", id="message", rows=6) }}
+                        {% for error in form.message.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    {{ form.submit(class="submit-btn") }}
+                </form>
+
+            </div>
+        </div>
+    </section>
+    <script src="{{ url_for('static', filename='js/portfolio.js') }}"></script>
+</body>
