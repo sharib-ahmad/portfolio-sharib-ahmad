@@ -71,15 +71,15 @@
         <div class="about-container">
             <div class="about-left-col">
                 <div class="about-image">
-                    <img src="/static/portfolio_pic/sharib-ahmad.webp" alt="Sharib Ahmad">
+                    <img src="/static/portfolio_pic/sharib.webp" alt="Sharib Ahmad">
                 </div>
                 <div class="skills-pagination-wrapper" id="skills-pagination-wrapper">
                     <div class="skills-container" id="skills-container">
                         {% for skill in skills %}
                         <div class="skill-orb">
                             <div class="skill-icon">
-                                <img src="https://cdn.simpleicons.org/{{ skill | lower | replace('.', '') | replace(' ', '') | replace('#', 'sharp') | replace('+', 'plus') }}"
-                                    width="40" alt="{{ skill }}"
+                                <img src="https://cdn.simpleicons.org/{{ skill | lower | replace('.', 'dot') | replace(' ', '') | replace('-', '') |replace('#', 'sharp') | replace('+', 'plus') }}"
+                                    width="40" alt=""
                                     onerror="this.onerror=null;this.src='https://cdn.simpleicons.org/code';" />
                             </div>
                             <div class="skill-name">{{ skill }}</div>
