@@ -118,7 +118,7 @@
                 {% for project in projects %}
                 <div class="project-card">
                     {% if project.image %}
-                    <div class="project-image-true" style="background-image: url({{project.image}});"></div>
+                    <div class="project-image-true" style="background-image: url('{{ url_for('portfolio.project_image', project_id=project.id) }}');"></div>
                     {% else %}
                     <div class="project-image"></div>
                     {% endif %}

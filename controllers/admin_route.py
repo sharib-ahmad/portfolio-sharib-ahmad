@@ -1,7 +1,6 @@
 from flask import Blueprint, redirect, render_template, url_for, flash, request, current_app
 from flask_login import login_required
 from models.forms import ProjectForm
-from werkzeug.utils import secure_filename
 from models.model import Projects, Technologies, Links
 from models import db
 import os
@@ -11,38 +10,28 @@ admin_bp = Blueprint('admin', __name__, template_folder='../templates')
 @admin_bp.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin():
-    form = ProjectForm()
-    image_url = None  # ✅ Initialize image_url before usage
+    form = ProjectForm() 
 
     if form.validate_on_submit():
         try:
-            # ✅ Ensure project_images folder exists
-            # image_folder = os.path.join(current_app.root_path, 'static', 'project_images')
-            # os.makedirs(image_folder, exist_ok=True)
+            image_data = None
+            image_mimetype = None
 
-            # # ✅ Handle image saving
-            # if form.image.data:
-            #     filename = f'{secure_filename(form.title.data)}.png'
-            #     image_path = os.path.join(image_folder, filename)
-            #     image_url = f'/static/project_images/{filename}'
-            #     form.image.data.save(image_path)
-            print(form.image.data is not None)
             if form.image.data:
-                filename = f'{secure_filename(form.title.data)}.png'
-                image_path = os.path.join(current_app.root_path, 'static', 'project_images', filename)
-                os.makedirs(os.path.dirname(image_path), exist_ok=True)
-                form.image.data.save(image_path)
-                image_url = f'/static/project_images/{filename}'
+                image_data = form.image.data.read()
+                image_mimetype = form.image.data.mimetype
+                
                 
             # ✅ Create the project
             project = Projects(
                 title=form.title.data,
                 description=form.description.data,
-                image=image_url,  # This could be None
+                image=image_data,
+                image_mimetype=image_mimetype, 
                 rating=int(form.rating.data)
             )
             db.session.add(project)
-            db.session.flush()  # Assign ID before adding related entries
+            db.session.flush() 
 
             # ✅ Add technologies
             if form.tech.data:
